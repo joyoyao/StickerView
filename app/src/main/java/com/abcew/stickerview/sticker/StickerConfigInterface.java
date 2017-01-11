@@ -18,6 +18,9 @@ public   interface StickerConfigInterface {
         TEXT
     }
 
+
+
+
     /**
      * Return the type of the sticker
      * @return sticker typ
@@ -26,6 +29,10 @@ public   interface StickerConfigInterface {
     @Nullable
     STICKER_TYPE getType();
 
+
+    public int width = 0;
+
+    public int height = 0;
         /*
          * Check if the Sticker is a SVG sticker
          * @return true if it is a SVG sticker

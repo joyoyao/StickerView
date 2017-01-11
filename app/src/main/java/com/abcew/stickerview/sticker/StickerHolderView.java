@@ -282,6 +282,7 @@ public class StickerHolderView extends RelativeLayout {
     private float startStickerScale = 0;
     private float startStickerRotation = 0;
     private boolean startWithFixedCenterPoint = false;
+    private boolean startDeletePoint = false;
 
     @Override
     public boolean onTouchEvent(MotionEvent rawEvent) {
@@ -333,6 +334,7 @@ public class StickerHolderView extends RelativeLayout {
                     if (startWithFixedCenterPoint) {
                         event.setFixedCenterPoint(startStickerX, startStickerY);
                     }
+                    startDeletePoint = stickerInEditMode.isOnDelButton(event);
                 } else {
 
                     if (startWithFixedCenterPoint) {
@@ -368,7 +370,11 @@ public class StickerHolderView extends RelativeLayout {
                     stickerInEditMode.setTransformation(stickerX, stickerY, stickerScale, stickerRotation);
 
                 }
+                 if(startDeletePoint){
+                     startDeletePoint=false;
+                     deleteSticker();
 
+                 }
                 invalidate();
                 return true;
             }

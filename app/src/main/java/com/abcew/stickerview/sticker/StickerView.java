@@ -4,8 +4,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PathEffect;
 import android.graphics.Picture;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -47,13 +51,19 @@ public class StickerView extends ImageView {
 
     private Bitmap resizeBitmap;
 
+    private Bitmap delBitmap;
+
     @Nullable
     private Bitmap stickerPictureCache;
 
     private RectF dst_resize;
 
+    private RectF del_resize;
+
     private int resizeBitmapWidth;
     private int resizeBitmapHeight;
+    private int delBitmapWidth;
+    private int delBitmapHeight;
 
     private Paint localPaint;
     private int screenWidth, screenHeight;
@@ -93,6 +103,9 @@ public class StickerView extends ImageView {
 
     private final StickerHolderView holder;
 
+
+    private Path boxPath = new Path();
+
     public StickerView(Context context, StickerConfigInterface config, StickerHolderView holder) {
         super(context);
         this.config = config;
@@ -120,12 +133,39 @@ public class StickerView extends ImageView {
         uiPaint.setAlpha(255);
 
         dst_resize = new RectF();
+        del_resize = new RectF();
 
         localPaint = new Paint();
-        localPaint.setColor(0x66FFFFFF);
-        localPaint.setAntiAlias(true);
-        localPaint.setDither(true);
+//        localPaint.setColor(0x66FFFFFF);
+//        localPaint.setAntiAlias(true);
+//        localPaint.setDither(true);
+//        PathEffect effects = new DashPathEffect(new float[]{12, 12,}, 1);
+//        localPaint.setPathEffect(effects);
+//        localPaint.setStyle(Paint.Style.STROKE);
+//        localPaint.setStrokeWidth(4);
+//
+//
+        localPaint.setColor(Color.WHITE);
         localPaint.setStyle(Paint.Style.STROKE);
+        localPaint.setAntiAlias(true);
+        localPaint.setStrokeWidth(4);
+        PathEffect effects = new DashPathEffect(new float[]{12, 12,}, 1);
+        localPaint.setPathEffect(effects);
+
+//        localPaint= new Paint(Paint.ANTI_ALIAS_FLAG);
+//        localPaint.setStyle(Paint.Style.STROKE);
+//        localPaint.setColor(Color.WHITE);
+//        localPaint.setStrokeWidth(4);
+//        PathEffect effects = new DashPathEffect(new float[] { 1, 2, 4, 8}, 1);
+//        localPaint.setPathEffect(effects);
+
+//        localPaint = new Paint();
+//        localPaint.setStyle(Paint.Style.FILL);
+//        localPaint.setColor(Color.BLUE);
+//        localPaint.setStrokeWidth(1);
+//        PathEffect effects = new DashPathEffect(new float[] { 1, 2, 4, 8}, 1);
+//        localPaint.setPathEffect(effects);
+//        localPaint.setAntiAlias(true);
 
         screenWidth  = dm.widthPixels;
         screenHeight = dm.heightPixels;
@@ -356,18 +396,32 @@ public class StickerView extends ImageView {
             dst_resize.right  = (int) (f7 + scaledResizeBitmapWidth  / 2);
             dst_resize.top    = (int) (f8 - scaledResizeBitmapHeight / 2);
             dst_resize.bottom = (int) (f8 + scaledResizeBitmapHeight / 2);
-
             canvas.save();
-
             canvas.scale(canvasScale, canvasScale);
             canvas.translate(x, y);
-
-            canvas.drawLine(f1, f2, f3, f4, localPaint);
-            canvas.drawLine(f3, f4, f7, f8, localPaint);
-            canvas.drawLine(f5, f6, f7, f8, localPaint);
-            canvas.drawLine(f5, f6, f1, f2, localPaint);
+//            canvas.drawLine(f1, f2, f3, f4, localPaint);
+//            canvas.drawLine(f3, f4, f7, f8, localPaint);
+//            canvas.drawLine(f5, f6, f7, f8, localPaint);
+//            canvas.drawLine(f5, f6, f1, f2, localPaint);
+            boxPath.reset();
+            boxPath.moveTo(f1, f2);
+            boxPath.lineTo(f3,f4);
+            boxPath.lineTo(f7,f8);
+            boxPath.lineTo(f5,f6);
+            boxPath.lineTo(f1,f2);
+            canvas.drawPath(boxPath, localPaint);
 
             canvas.drawBitmap(resizeBitmap, null, dst_resize, uiPaint);
+
+
+            int scaledDelBitmapWidth  = (int)(delBitmapWidth  / imageScale);
+            int scaledDelBitmapHeight = (int)(delBitmapHeight / imageScale);
+
+            del_resize.left   = (int) (f1 - scaledDelBitmapWidth  / 2);
+            del_resize.right  = (int) (f1 + scaledDelBitmapWidth  / 2);
+            del_resize.top    = (int) (f2 - scaledDelBitmapHeight / 2);
+            del_resize.bottom = (int) (f2 + scaledDelBitmapHeight / 2);
+            canvas.drawBitmap(delBitmap, null, del_resize, uiPaint);
 
             canvas.restore();
         }
@@ -613,9 +667,14 @@ public class StickerView extends ImageView {
 
     private void initButtonBitmaps() {
 
-        resizeBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_change_size);
+        resizeBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sticker_resize);
         resizeBitmapWidth  = resizeBitmap.getWidth();
         resizeBitmapHeight = resizeBitmap.getHeight();
+
+
+        delBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sticker_delete);
+        delBitmapWidth  = delBitmap.getWidth();
+        delBitmapHeight = delBitmap.getHeight();
 
 
     }
@@ -690,6 +749,15 @@ public class StickerView extends ImageView {
         float top    = -20 + this.dst_resize.top;
         float right  = 20 + this.dst_resize.right;
         float bottom = 20 + this.dst_resize.bottom;
+        return event.getX(0) >= left && event.getX(0) <= right && event.getY(0) >= top && event.getY(0) <= bottom;
+    }
+
+
+    protected boolean isOnDelButton(@NonNull ScaledMotionEventWrapper event) {
+        float left  = -20 + this.del_resize.left;
+        float top    = -20 + this.del_resize.top;
+        float right  = 20 + this.del_resize.right;
+        float bottom = 20 + this.del_resize.bottom;
         return event.getX(0) >= left && event.getX(0) <= right && event.getY(0) >= top && event.getY(0) <= bottom;
     }
 

@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.RawRes;
-import android.util.TypedValue;
 
 /**
  * Created by laputan on 2017/1/11.

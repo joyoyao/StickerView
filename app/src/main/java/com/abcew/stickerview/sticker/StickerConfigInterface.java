@@ -30,9 +30,8 @@ public   interface StickerConfigInterface {
     STICKER_TYPE getType();
 
 
-    public int width = 0;
 
-    public int height = 0;
+
         /*
          * Check if the Sticker is a SVG sticker
          * @return true if it is a SVG sticker

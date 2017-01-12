@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity implements StickerHolderView
 
 
     public void OnClickAddImage(View view) {
-        stickerHolderView.addStickerView(new ImageStickerConfig(R.string.sticker_name,R.drawable.icon_change_size,R.raw.sticker_mustache2));
+        ImageStickerConfig imageStickerConfig=new ImageStickerConfig(R.string.sticker_name,R.drawable.icon_change_size,R.raw.sticker_mustache2);
+        stickerHolderView.addStickerView(imageStickerConfig);
 
 
     }

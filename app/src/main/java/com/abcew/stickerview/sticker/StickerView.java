@@ -82,7 +82,7 @@ public class StickerView extends ImageView {
     private float currentY = 0f;
     private float currentScale = 1f;
     private float currentRotation = 0f;
-    private boolean isHorizonMirrored  = false;
+    private boolean isHorizonMirrored = false;
 
     private final StickerConfigInterface config;
 
@@ -167,7 +167,7 @@ public class StickerView extends ImageView {
 //        localPaint.setPathEffect(effects);
 //        localPaint.setAntiAlias(true);
 
-        screenWidth  = dm.widthPixels;
+        screenWidth = dm.widthPixels;
         screenHeight = dm.heightPixels;
 
         maxTextWidth = Math.max(screenWidth, screenHeight) * 2;
@@ -176,7 +176,7 @@ public class StickerView extends ImageView {
         initButtonBitmaps();
     }
 
-    protected boolean hasStickerSize(){
+    protected boolean hasStickerSize() {
         return stickerCacheHeight > 0 && stickerCacheWidth > 0;
     }
 
@@ -240,7 +240,7 @@ public class StickerView extends ImageView {
     }
 
     @Nullable
-    public StickerConfigInterface.STICKER_TYPE getType(){
+    public StickerConfigInterface.STICKER_TYPE getType() {
         return config == null ? null : getConfig().getType();
     }
 
@@ -263,6 +263,7 @@ public class StickerView extends ImageView {
 
 
     private boolean requestRedraw = false;
+
     public void rescaleCache(float scaleDown) {
         boolean instantClear = Math.abs(scaleDown - memoryScaleDown) > 0.2 && memoryScaleDown != 1 || memoryScaleDown == 0f;
 
@@ -299,10 +300,10 @@ public class StickerView extends ImageView {
     private synchronized Matrix getStickerMatrix() {
         synchronized (stickerMatrix) {
 
-            float stickerWidth  = (stickerCacheWidth)  * currentScale;
+            float stickerWidth = (stickerCacheWidth) * currentScale;
             float stickerHeight = (stickerCacheHeight) * currentScale;
 
-            float translateX = currentX - stickerWidth  / 2f;
+            float translateX = currentX - stickerWidth / 2f;
             float translateY = currentY - stickerHeight / 2f;
 
             stickerMatrix.reset();
@@ -321,11 +322,12 @@ public class StickerView extends ImageView {
 
     /**
      * Return the current transformation state of the Sticker
+     *
      * @return float[] {
-     *     xPos,
-     *     yPos,
-     *     scale,
-     *     rotation
+     * xPos,
+     * yPos,
+     * scale,
+     * rotation
      * }
      */
     @NonNull
@@ -388,13 +390,13 @@ public class StickerView extends ImageView {
 
             localPaint.setStrokeWidth(dm.density / canvasScale);
 
-            int scaledResizeBitmapWidth  = (int)(resizeBitmapWidth  / imageScale);
-            int scaledResizeBitmapHeight = (int)(resizeBitmapHeight / imageScale);
+            int scaledResizeBitmapWidth = (int) (resizeBitmapWidth / imageScale);
+            int scaledResizeBitmapHeight = (int) (resizeBitmapHeight / imageScale);
 
             //bottom - right
-            dst_resize.left   = (int) (f7 - scaledResizeBitmapWidth  / 2);
-            dst_resize.right  = (int) (f7 + scaledResizeBitmapWidth  / 2);
-            dst_resize.top    = (int) (f8 - scaledResizeBitmapHeight / 2);
+            dst_resize.left = (int) (f7 - scaledResizeBitmapWidth / 2);
+            dst_resize.right = (int) (f7 + scaledResizeBitmapWidth / 2);
+            dst_resize.top = (int) (f8 - scaledResizeBitmapHeight / 2);
             dst_resize.bottom = (int) (f8 + scaledResizeBitmapHeight / 2);
             canvas.save();
             canvas.scale(canvasScale, canvasScale);
@@ -405,21 +407,21 @@ public class StickerView extends ImageView {
 //            canvas.drawLine(f5, f6, f1, f2, localPaint);
             boxPath.reset();
             boxPath.moveTo(f1, f2);
-            boxPath.lineTo(f3,f4);
-            boxPath.lineTo(f7,f8);
-            boxPath.lineTo(f5,f6);
-            boxPath.lineTo(f1,f2);
+            boxPath.lineTo(f3, f4);
+            boxPath.lineTo(f7, f8);
+            boxPath.lineTo(f5, f6);
+            boxPath.lineTo(f1, f2);
             canvas.drawPath(boxPath, localPaint);
 
             canvas.drawBitmap(resizeBitmap, null, dst_resize, uiPaint);
 
 
-            int scaledDelBitmapWidth  = (int)(delBitmapWidth  / imageScale);
-            int scaledDelBitmapHeight = (int)(delBitmapHeight / imageScale);
+            int scaledDelBitmapWidth = (int) (delBitmapWidth / imageScale);
+            int scaledDelBitmapHeight = (int) (delBitmapHeight / imageScale);
 
-            del_resize.left   = (int) (f1 - scaledDelBitmapWidth  / 2);
-            del_resize.right  = (int) (f1 + scaledDelBitmapWidth  / 2);
-            del_resize.top    = (int) (f2 - scaledDelBitmapHeight / 2);
+            del_resize.left = (int) (f1 - scaledDelBitmapWidth / 2);
+            del_resize.right = (int) (f1 + scaledDelBitmapWidth / 2);
+            del_resize.top = (int) (f2 - scaledDelBitmapHeight / 2);
             del_resize.bottom = (int) (f2 + scaledDelBitmapHeight / 2);
             canvas.drawBitmap(delBitmap, null, del_resize, uiPaint);
 
@@ -482,7 +484,7 @@ public class StickerView extends ImageView {
 
     protected synchronized void loadBitmapCache() {
         if (!cacheIsLoading) {
-            int preCacheWidth  = getWidth()  / 10;
+            int preCacheWidth = getWidth() / 10;
             int preCacheHeight = getHeight() / 10;
 
             if (cacheNewPixelSize <= 0) {
@@ -495,10 +497,10 @@ public class StickerView extends ImageView {
     @NonNull
     protected static Picture drawTextToPicture(@NonNull TextStickerConfig config) {
 
-        final String text     = config.getText();
+        final String text = config.getText();
 
         final Rect textBounds = new Rect();
-        final Paint bgPaint   = new Paint();
+        final Paint bgPaint = new Paint();
         final Picture picture = new Picture();
         final TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
 
@@ -519,8 +521,8 @@ public class StickerView extends ImageView {
 
         bgPaint.setColor(config.getBackgroundColor());
 
-        final int textWidth  = (int)(textBounds.width()  + shadowRadius + Math.abs(shadowX) + padding * 2);
-        final int textHeight = (int)(textBounds.height() + shadowRadius + Math.abs(shadowY) + padding * 2);
+        final int textWidth = (int) (textBounds.width() + shadowRadius + Math.abs(shadowX) + padding * 2);
+        final int textHeight = (int) (textBounds.height() + shadowRadius + Math.abs(shadowY) + padding * 2);
 
         final Rect rect = new Rect(0, 0, textWidth, textHeight);
 
@@ -532,8 +534,8 @@ public class StickerView extends ImageView {
 
         canvas.drawText(
                 text,
-                -shadowRadius/2f + shadowX - textBounds.left + padding,
-                -shadowRadius/2f + shadowY - textBounds.top  + padding,
+                -shadowRadius / 2f + shadowX - textBounds.left + padding,
+                -shadowRadius / 2f + shadowY - textBounds.top + padding,
                 paint
         );
 
@@ -552,9 +554,9 @@ public class StickerView extends ImageView {
             LoadPictureCacheTask loadFullSize = new LoadPictureCacheTask(config, true);
             try {
                 loadFullSize.onPostExecute(loadFullSize.execute().get());
+            } catch (InterruptedException ignored) {
+            } catch (ExecutionException ignored) {
             }
-            catch (InterruptedException ignored) {}
-            catch (ExecutionException ignored) {}
         } else {
 
             if (pixelSize < CACHE_THRESHOLD) {
@@ -595,10 +597,10 @@ public class StickerView extends ImageView {
         float newAspect = (w / (float) h);
 
         if (!isStickerImageInitialized) {
-            isStickerImageInitialized = true;
+
             reinitializedAspect = false;
 
-            this.stickerCacheWidth  = w;
+            this.stickerCacheWidth = w;
             this.stickerCacheHeight = h;
 
             if (stickerCacheWidth >= stickerCacheHeight) {
@@ -633,7 +635,7 @@ public class StickerView extends ImageView {
 
             float initScale = (minScale + maxScale) / 2;
 
-            currentX = ((getWidth()  / 2) / imageScale - translationX);
+            currentX = ((getWidth() / 2) / imageScale - translationX);
             currentY = ((getHeight() / 2) / imageScale - translationY);
             currentScale = initScale / imageScale;
             currentRotation = 360 - calculateOnScreenRotation();
@@ -642,8 +644,9 @@ public class StickerView extends ImageView {
                 flip(false);
             }
 
+            isStickerImageInitialized = true;
             postInvalidate();
-        }else if(reinitializedAspect && oldAspect != newAspect){
+        } else if (reinitializedAspect && oldAspect != newAspect) {
             reinitializedAspect = false;
 
             double scale = this.stickerCacheHeight / (double) h;
@@ -668,12 +671,12 @@ public class StickerView extends ImageView {
     private void initButtonBitmaps() {
 
         resizeBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sticker_resize);
-        resizeBitmapWidth  = resizeBitmap.getWidth();
+        resizeBitmapWidth = resizeBitmap.getWidth();
         resizeBitmapHeight = resizeBitmap.getHeight();
 
 
         delBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sticker_delete);
-        delBitmapWidth  = delBitmap.getWidth();
+        delBitmapWidth = delBitmap.getWidth();
         delBitmapHeight = delBitmap.getHeight();
 
 
@@ -745,18 +748,18 @@ public class StickerView extends ImageView {
 
 
     protected boolean isOnResizeButton(@NonNull ScaledMotionEventWrapper event) {
-        float left  = -20 + this.dst_resize.left;
-        float top    = -20 + this.dst_resize.top;
-        float right  = 20 + this.dst_resize.right;
+        float left = -20 + this.dst_resize.left;
+        float top = -20 + this.dst_resize.top;
+        float right = 20 + this.dst_resize.right;
         float bottom = 20 + this.dst_resize.bottom;
         return event.getX(0) >= left && event.getX(0) <= right && event.getY(0) >= top && event.getY(0) <= bottom;
     }
 
 
     protected boolean isOnDelButton(@NonNull ScaledMotionEventWrapper event) {
-        float left  = -20 + this.del_resize.left;
-        float top    = -20 + this.del_resize.top;
-        float right  = 20 + this.del_resize.right;
+        float left = -20 + this.del_resize.left;
+        float top = -20 + this.del_resize.top;
+        float right = 20 + this.del_resize.right;
         float bottom = 20 + this.del_resize.bottom;
         return event.getX(0) >= left && event.getX(0) <= right && event.getY(0) >= top && event.getY(0) <= bottom;
     }
@@ -799,12 +802,12 @@ public class StickerView extends ImageView {
             memoryScaleDown = ignoreMemoryScale ? 1f : holder.takeStickerMemory(StickerView.this);
 
             if (isText) {
-                textConfig  = (TextStickerConfig) config;
+                textConfig = (TextStickerConfig) config;
                 imageConfig = null;
                 textPicture = drawTextToPicture((TextStickerConfig) config);
             } else {
                 imageConfig = (ImageStickerConfig) config;
-                textConfig  = null;
+                textConfig = null;
                 textPicture = null;
             }
 
@@ -827,8 +830,9 @@ public class StickerView extends ImageView {
                 if (isText) {
 
                     final double aspect = textPicture.getWidth() / (double) textPicture.getHeight();
-                    final int width  = (int) Math.sqrt(loadMaxSize * aspect);
+                    final int width = (int) Math.sqrt(loadMaxSize * aspect);
                     final int height = (int) Math.sqrt(loadMaxSize * (1 / aspect));
+
 
                     Bitmap canvasBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(canvasBitmap);
@@ -838,6 +842,8 @@ public class StickerView extends ImageView {
                     textPicture.draw(canvas);
 
                     Bitmap bitmap = canvasBitmap;
+
+
                     if (bitmap.getWidth() * bitmap.getHeight() > loadMaxSize * 1.01f && width > 0 && height > 0) {
                         bitmap = Bitmap.createScaledBitmap(canvasBitmap, width, height, true);
                         canvasBitmap.recycle();
@@ -850,15 +856,17 @@ public class StickerView extends ImageView {
                     float[] fullSize = BitmapFactoryUtils.decodeSize(context.getResources(), imageConfig.getStickerId());
 
                     final double aspect = fullSize[0] / (double) fullSize[1];
-                    final int width  = (int) Math.sqrt(loadMaxSize * aspect);
+                    final int width = (int) Math.sqrt(loadMaxSize * aspect);
                     final int height = (int) Math.sqrt(loadMaxSize * (1 / aspect));
 
                     Bitmap orgBitmap = BitmapFactoryUtils.decodeResource(context.getResources(), imageConfig.getStickerId(), Math.round(Math.max(width, height)));
                     bitmap = orgBitmap;
+
                     if (bitmap.getWidth() * bitmap.getHeight() > loadMaxSize * 1.01f && width > 0 && height > 0) {
                         bitmap = Bitmap.createScaledBitmap(orgBitmap, width, height, true);
                         orgBitmap.recycle();
                     }
+
 
                     return bitmap;
                 }
@@ -869,7 +877,7 @@ public class StickerView extends ImageView {
             if (result != null) {
                 setStickerPictureCache(result);
             }
-            if (result == null || result.getByteCount() > cachePixelSize * memoryScaleDown * 3.9f){
+            if (result == null || result.getByteCount() > cachePixelSize * memoryScaleDown * 3.9f) {
                 loadBitmapCache();
             }
 

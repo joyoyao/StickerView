@@ -19,6 +19,9 @@ public class ImageStickerConfig implements StickerConfigInterface{
 
     private final boolean isSvg;
 
+
+
+
     public ImageStickerConfig(@StringRes int name, @DrawableRes @RawRes int drawableId, @DrawableRes @RawRes int stickerId) {
 
         this.stickerId  = stickerId;

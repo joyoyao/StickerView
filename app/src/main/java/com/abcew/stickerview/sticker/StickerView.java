@@ -110,7 +110,7 @@ public class StickerView extends ImageView {
         super(context);
         this.config = config;
         this.holder = holder;
-        setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         setWillNotDraw(false);
 
